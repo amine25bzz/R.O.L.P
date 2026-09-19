@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rules of language pronunciation — R.O.L.P</title>
+<title>Rules of language pronunciation</title>
 <style>
   :root{
     --bg-1:#0b1220; --bg-2:#131c31; --card:#1a2540; --card-2:#22304f;
@@ -275,7 +275,7 @@
 <!-- === Splash === -->
 <div id="splash">
   <div class="logo">🎓</div>
-  <h1>Rules of language pronunciation</h1>
+  <h1>language pronunciation</h1>
   <h2>R.O.L.P</h2>
   <p>مع الأستاذ الذكي — استمع، تحدّث، تعلّم بثقة</p>
   <div class="loader"></div>
@@ -394,7 +394,7 @@
       <span class="chip y" id="hStreak">🔥 0</span>
     </div>
     <div class="toolbar">
-      <button class="icon-btn" onclick="goHome()" title="الرئيسية">🏠</button>
+      <button class="icon-btn" onclick="confirmReset()" title="الرئيسية">🏠</button>
       <button class="icon-btn" id="soundBtn" onclick="toggleSound()" title="أصوات">🔊</button>
       <button class="icon-btn" id="voiceBtn" onclick="toggleVoice()" title="صوت الأستاذ">🗣️</button>
       <button class="icon-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
@@ -1310,7 +1310,7 @@ function renderWritingExam(content, bottom){
     content.innerHTML = '';
     const box = document.createElement('div'); box.className='question';
     const qtext = document.createElement('div'); qtext.className='qtext';
-    qtext.innerHTML = `<span class="qnum">${idx+1}/${total}</span> 🖊️ اكتب الكلمة بـ${state.student.language === 'Arabic' ? 'العربية' : 'اللغة'} مقابل: <b style="color:var(--gold);">${prompt}</b>`;
+    qtext.innerHTML = `<span class="qnum">${idx+1}/${total}</span> 🖊️ اكتب الكلمة بـ${state.student.language === 'Arabic' ? 'العربية' : 'اللغة'} : <b style="color:var(--gold);">${prompt}</b>`;
     box.appendChild(qtext);
 
     const hintBox = document.createElement('div');
