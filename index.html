@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rules of language pronunciation</title>
+<style>
+  :root{
+    --bg-1:#0b1220; --bg-2:#131c31; --card:#1a2540; --card-2:#22304f;
+    --gold:#f5b301; --green:#10b981; --blue:#3b82f6; --red:#ef4444;
+    --purple:#8b5cf6; --text:#e8eefc; --muted:#94a3b8; --line:#2b3853;
+    --shadow:0 20px 60px rgba(0,0,0,.55);
+  }
+  body.light{--bg-1:#f1f5f9; --bg-2:#e2e8f0; --card:#ffffff; --card-2:#f8fafc; --text:#0f172a; --muted:#475569; --line:#cbd5e1;}
+  *{box-sizing:border-box; margin:0; padding:0; font-family:'Segoe UI',Tahoma,sans-serif; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%; overflow:hidden;}
+  body{background: radial-gradient(circle at 20% 10%, var(--bg-2), var(--bg-1)); color:var(--text); transition: background .5s, color .5s;}
+
+  /* === Splash === */
+  #splash{position:fixed; inset:0; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; background: radial-gradient(circle at center, #1e3a8a, #0b1220); transition: opacity .9s;}
+  #splash .logo{font-size:90px; animation: pop 1.6s infinite alternate; filter:drop-shadow(0 0 30px var(--gold));}
+  @keyframes pop{from{transform:scale(1) rotate(-4deg);} to{transform:scale(1.15) rotate(4deg);}}
+  #splash h1{font-size:34px; margin-top:18px; color:var(--gold); text-shadow:0 0 22px var(--gold);}
+  #splash p{margin-top:8px; opacity:.85;}
+  .loader{margin-top:26px; width:220px; height:6px; background:#334155; border-radius:6px; overflow:hidden;}
+  .loader::after{content:''; display:block; height:100%; width:40%; background:var(--gold); animation: load 1.2s infinite;}
+  @keyframes load{0%{transform:translateX(-100%);}100%{transform:translateX(350%);}}
+
+  /* === Home Screen (Dashboard) === */
+  #home{position:fixed; inset:0; z-index:50; display:flex; flex-direction:column; overflow-y:auto; padding:20px;}
+  .home-container{max-width:1100px; margin:0 auto; width:100%;}
+  
+  .home-header{text-align:center; margin-bottom:30px; position:relative;}
+  .home-header .crest{font-size:70px; margin-bottom:10px;}
+  .home-header h1{color:var(--gold); font-size:28px; margin-bottom:6px;}
+  .home-header p{color:var(--muted); font-size:15px;}
+  
+  .settings-bar{display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;}
+  .settings-bar button{background:var(--card); border:1px solid var(--line); color:var(--text); padding:8px 16px; border-radius:20px; font-size:13px; display:flex; align-items:center; gap:6px; cursor:pointer; transition:.3s;}
+  .settings-bar button:hover{border-color:var(--gold); transform:translateY(-2px);}
+  
+  .setup-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:20px; margin-bottom:30px;}
+  .setup-card{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:20px; display:flex; flex-direction:column; transition:.3s;}
+  .setup-card:hover{border-color:var(--gold); box-shadow:0 10px 30px rgba(0,0,0,.3);}
+  .setup-card .card-icon{font-size:36px; margin-bottom:10px;}
+  .setup-card h3{color:var(--gold); font-size:16px; margin-bottom:12px; display:flex; align-items:center; gap:8px;}
+  .setup-card label{display:block; margin-top:10px; color:var(--muted); font-size:13px; font-weight:600;}
+  .setup-card input, .setup-card select{padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--bg-1); color:var(--text); width:100%; margin-top:6px; font-size:15px;}
+  .setup-card input:focus, .setup-card select:focus{outline:none; border-color:var(--gold);}
+  
+  .home-actions{display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:10px;}
+  .home-actions button{flex:1; min-width:150px; padding:14px 24px; font-size:16px; border-radius:16px;}
+  
+  .features-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-top:30px;}
+  .feature-card{background:var(--card-2); border:1px solid var(--line); border-radius:16px; padding:16px; text-align:center; transition:.3s; cursor:default;}
+  .feature-card:hover{transform:translateY(-3px); border-color:var(--gold);}
+  .feature-card .icon{font-size:32px; margin-bottom:8px; display:block;}
+  .feature-card .title{font-size:13px; font-weight:700; color:var(--text);}
+  
+  /* === Modal Screen (for lessons, etc.) === */
+  .modal-screen{position:fixed; inset:0; z-index:500; background: var(--bg-1); display:none; flex-direction:column; transform: translateY(100%); transition: transform .45s cubic-bezier(.2,.9,.3,1);}
+  .modal-screen.active{display:flex; transform: translateY(0);}
+  
+  .modal-top{display:flex; align-items:center; justify-content:space-between; padding:14px 20px; background: linear-gradient(90deg, var(--card-2), var(--card)); border-bottom:2px solid var(--gold); flex-shrink:0;}
+  .modal-top .left{display:flex; align-items:center; gap:12px;}
+  .modal-top h2{font-size:19px; display:flex; align-items:center; gap:10px; color:var(--gold);}
+  .modal-top .right{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .modal-content{flex:1; overflow-y:auto; padding:20px 22px 80px 22px;}
+  .modal-content::-webkit-scrollbar{width:8px;}
+  .modal-content::-webkit-scrollbar-thumb{background:var(--gold); border-radius:6px;}
+  .modal-bottom{padding:14px 22px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; border-top:1px solid var(--line); background: var(--card-2); flex-shrink:0;}
+
+  /* === App Dashboard (after start) === */
+  #app{position:fixed; inset:0; z-index:45; display:none; flex-direction:column;}
+  #app.show{display:flex;}
+  
+  .topbar{display:flex; align-items:center; justify-content:space-between; padding:12px 18px; gap:12px; flex-wrap:wrap; background: linear-gradient(90deg, var(--card-2), var(--card)); border-bottom:2px solid var(--gold); flex-shrink:0;}
+  .brand{display:flex; align-items:center; gap:10px; font-size:18px; font-weight:800; color:var(--gold); cursor:pointer;}
+  .brand .logo-sm{font-size:26px;}
+  .student-chips{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .chip{padding:7px 14px; border-radius:20px; font-size:13px; font-weight:700; background:var(--blue); color:#fff; display:inline-flex; align-items:center; gap:6px;}
+  .chip.score{background:var(--green);}
+  .chip.level{background:var(--purple);}
+  .chip.streak{background:var(--gold); color:#111;}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap;}
+
+  .dashboard{flex:1; padding:16px; display:grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap:12px; overflow:hidden; min-height:0;}
+  
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:14px; display:flex; flex-direction:column; min-height:0; overflow:hidden;}
+  .panel h3{color:var(--gold); font-size:15px; margin-bottom:10px; display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .welcome-card{grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; background: linear-gradient(135deg, var(--card), var(--card-2)); border:1px solid var(--line); border-radius:16px; padding:12px 16px;}
+  .welcome-card .who{font-size:14px;}
+  .welcome-card .who b{color:var(--gold); font-size:17px;}
+  .progress-wrap{flex:1; min-width:180px;}
+  .progress-bar{width:100%; height:12px; background:var(--card-2); border-radius:10px; overflow:hidden; border:1px solid var(--line);}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--green),var(--gold)); width:0%; transition:width .8s; border-radius:10px;}
+  .progress-label{font-size:11px; color:var(--muted); margin-top:4px;}
+  
+  .menu-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; align-content:start; flex:1; min-height:0;}
+  .menu-item{background: linear-gradient(135deg, var(--card-2), var(--card)); border:1px solid var(--line); border-radius:14px; padding:12px 6px; text-align:center; cursor:pointer; transition:.3s; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+  .menu-item:hover{transform:translateY(-3px); border-color:var(--gold);}
+  .menu-item .icon{font-size:28px; display:block; margin-bottom:4px; line-height:1;}
+  .menu-item .title{font-weight:800; font-size:12px; line-height:1.2;}
+
+  /* === Buttons === */
+  button{cursor:pointer; border:none; border-radius:12px; padding:11px 20px; font-size:15px; font-weight:700; transition:.25s; display:inline-flex; align-items:center; gap:8px; justify-content:center; font-family:inherit;}
+  button:hover{transform:translateY(-2px); box-shadow:0 8px 22px rgba(0,0,0,.35);}
+  button:disabled{opacity:.4; cursor:not-allowed; transform:none;}
+  .btn-primary{background:var(--blue); color:#fff;}
+  .btn-success{background:var(--green); color:#fff;}
+  .btn-warn{background:var(--gold); color:#111;}
+  .btn-danger{background:var(--red); color:#fff;}
+  .btn-ghost{background:transparent; color:var(--text); border:1px solid var(--line);}
+  .btn-ghost:hover{background:var(--card-2);}
+  .icon-btn{width:44px; height:44px; border-radius:12px; padding:0; background:var(--card-2); color:var(--text); border:1px solid var(--line); font-size:19px;}
+  .speak-btn{background:var(--card); color:var(--blue); border:1px solid var(--blue); border-radius:20px; padding:4px 10px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:4px;}
+  .speak-btn:hover{background:var(--blue); color:#fff;}
+  .speak-btn.big{padding:8px 16px; font-size:15px; border-radius:14px;}
+
+  /* === Stats & Content === */
+  .stats-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+  .stat{background: var(--card-2); border-radius:14px; padding:12px; text-align:center; border:1px solid var(--line);}
+  .stat .num{font-size:24px; font-weight:900; color:var(--gold);}
+  .stat .lbl{font-size:12px; color:var(--muted); margin-top:4px;}
+  .bars{display:flex; align-items:flex-end; gap:8px; height:120px; padding-top:8px;}
+  .bar{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;}
+  .bar .col{width:100%; background:linear-gradient(180deg,var(--blue),var(--purple)); border-radius:8px 8px 0 0; min-height:6px;}
+  .bar .lbl{font-size:11px; color:var(--muted);}
+
+  .question{background: var(--card-2); padding:16px; border-radius:14px; margin-bottom:14px; border-right:4px solid var(--blue);}
+  .question .qtext{font-size:17px; font-weight:800; margin-bottom:10px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .question .qnum{display:inline-block; background:var(--blue); color:#fff; padding:2px 10px; border-radius:20px; font-size:12px;}
+  .option{display:flex; align-items:center; justify-content:space-between; gap:8px; background: var(--card); padding:12px 14px; border-radius:10px; margin:8px 0; cursor:pointer; transition:.2s; border:1px solid var(--line); font-size:15px;}
+  .option:hover{background:var(--card-2); border-color:var(--gold);}
+  .option.selected{background:var(--blue); border-color:var(--gold); color:#fff;}
+  .option.correct{background:var(--green); color:#fff; border-color:var(--green);}
+  .option.wrong{background:var(--red); color:#fff; border-color:var(--red);}
+  .option.disabled{cursor:not-allowed; opacity:.9;}
+  .option-text{flex:1;}
+  .explain{background: rgba(59,130,246,.12); border-right:4px solid var(--blue); padding:10px 12px; border-radius:8px; margin-top:8px; font-size:13px; display:none;}
+  .explain.show{display:block;}
+
+  .result-box{text-align:center; padding:22px; border-radius:16px; background: linear-gradient(135deg, var(--card-2), var(--card)); border:2px solid var(--gold); margin-top:14px;}
+  .result-box .score{font-size:52px; font-weight:900; color:var(--gold);}
+  .result-box .mention{font-size:16px; margin-top:6px;}
+
+  .timer{display:inline-flex; align-items:center; gap:6px; background:var(--card-2); border:1px solid var(--line); padding:6px 12px; border-radius:20px; font-weight:800; font-size:14px;}
+  .timer.warn{color:var(--red); border-color:var(--red);}
+
+  .certificate{background: linear-gradient(135deg,#fffbeb,#fef3c7); color:#1e293b; padding:32px; border-radius:18px; text-align:center; border:6px double var(--gold); max-width:700px; margin:0 auto;}
+  .certificate h2{color:#b45309; font-size:26px;}
+  .certificate .name{font-size:32px; font-weight:900; color:#1e3a8a; margin:16px 0;}
+  .certificate .seal{font-size:64px; margin-top:8px;}
+
+  .note, .consult{background:var(--card-2); padding:14px 16px; border-radius:12px; margin:10px 0; border-right:4px solid var(--gold); font-size:15px; line-height:1.6;}
+  .consult{border-right-color:var(--purple);}
+
+  .confetti{position:fixed; width:10px; height:10px; top:-10px; z-index:9998; animation: fall 3s linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg); opacity:0;}}
+
+  #toast{position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(120%); background:var(--card); border:1px solid var(--gold); color:var(--text); padding:12px 20px; border-radius:14px; z-index:10000; font-weight:700; transition: transform .4s; display:flex; align-items:center; gap:10px;}
+  #toast.show{transform:translateX(-50%) translateY(0);}
+  .hidden{display:none !important;}
+
+  .teacher-widget {
+    position: fixed;
+    top: 85px;
+    left: 15px;
+    z-index: 800;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 320px;
+    pointer-events: none;
+    flex-direction: row-reverse;
+  }
+  .teacher-avatar{font-size:34px; background:var(--card); border:2px solid var(--gold); border-radius:50%; width:58px; height:58px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .teacher-avatar.speaking{border-color:var(--green); animation: teacherPulse .5s infinite alternate;}
+  @keyframes teacherPulse{from{transform:scale(1);} to{transform:scale(1.14);}}
+  .teacher-bubble{background:var(--card); border:1px solid var(--gold); border-radius:14px; padding:10px 14px; font-size:12.5px; line-height:1.6; opacity:0; transform:translateY(10px); transition:.3s; max-width:250px; text-align: right;}
+  .teacher-bubble.show{opacity:1; transform:translateY(0);}
+
+  .flash-wrap{display:flex; flex-direction:column; align-items:center; gap:16px;}
+  .flashcard{width:100%; max-width:320px; height:230px; perspective:1200px; cursor:pointer;}
+  .flashcard-inner{position:relative; width:100%; height:100%; transition: transform .6s; transform-style:preserve-3d;}
+  .flashcard.flipped .flashcard-inner{transform:rotateY(180deg);}
+  .flashcard-face{position:absolute; inset:0; border-radius:20px; backface-visibility:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px solid var(--gold); padding:18px; text-align:center; background: linear-gradient(135deg, var(--card-2), var(--card));}
+  .flashcard-face.back{transform:rotateY(180deg);}
+  .flashcard-face .emoji{font-size:64px; margin-bottom:10px;}
+  .flashcard-face .word{font-size:26px; font-weight:900; color:var(--gold);}
+  .flashcard-face .translit{font-size:22px; font-weight:900; color:var(--purple);}
+  .flashcard-face .hint{font-size:12px; color:var(--muted); margin-top:10px;}
+  .flash-progress{font-size:13px; color:var(--muted);}
+  .flash-actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
+
+  .listen-item{background:var(--card-2); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px;}
+  .mic-btn{background:var(--red); color:#fff; border-radius:50%; width:64px; height:64px; font-size:26px; padding:0;}
+  .mic-btn.listening{animation: micPulse .8s infinite;}
+  @keyframes micPulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.5);}100%{box-shadow:0 0 0 18px rgba(239,68,68,0);}}
+  .speak-result{margin-top:10px; font-size:14px; font-weight:700;}
+
+  .syn-box{background:var(--card-2); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px;}
+  .syn-box .head{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px;}
+  .syn-box .word{font-size:22px; font-weight:900; color:var(--gold);}
+  .syn-box .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+  .tag{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:4px 12px; font-size:13px; color:var(--text); cursor:pointer;}
+  .tag:hover{background:var(--blue); color:#fff;}
+  .tag.ant{background:rgba(239,68,68,.15); border-color:var(--red); color:var(--red);}
+  .tag.ant:hover{background:var(--red); color:#fff;}
+  .syn-box .example{margin-top:10px; padding:10px; background:var(--bg-1); border-radius:10px; font-size:14px; color:var(--muted); font-style:italic;}
+  .topic-tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid var(--line);}
+  .topic-tab{padding:6px 14px; border-radius:20px; font-size:13px; font-weight:700; background:var(--card); border:1px solid var(--line); color:var(--text); cursor:pointer;}
+  .topic-tab:hover{background:var(--card-2); border-color:var(--gold);}
+  .topic-tab.active{background:var(--gold); color:#111; border-color:var(--gold);}
+
+  /* === Responsive === */
+  @media(max-width:520px){
+    .dashboard{padding:10px; gap:10px;}
+    .welcome-card{padding:10px 12px; gap:8px;}
+    .welcome-card .who{font-size:13px;}
+    .welcome-card .who b{font-size:16px;}
+    .progress-wrap{min-width:140px;}
+    .progress-bar{height:10px;}
+    .progress-label{font-size:10px;}
+    .panel{padding:10px; border-radius:14px;}
+    .panel h3{font-size:14px; margin-bottom:8px;}
+    .menu-grid{gap:8px;}
+    .menu-item{padding:10px 4px; border-radius:12px;}
+    .menu-item .icon{font-size:24px; margin-bottom:3px;}
+    .menu-item .title{font-size:11px;}
+    .topbar{padding:8px 10px; gap:6px;}
+    .brand{font-size:14px;}
+    .brand .logo-sm{font-size:20px;}
+    .chip{padding:5px 9px; font-size:11px;}
+    .icon-btn{width:38px; height:38px; font-size:16px;}
+    .teacher-widget{top:70px; left:8px; max-width:220px;}
+    .teacher-avatar{width:44px; height:44px; font-size:24px;}
+    .teacher-bubble{font-size:11px; padding:8px 10px; max-width:180px;}
+    .home-header h1{font-size:22px;}
+    .setup-grid{grid-template-columns:1fr;}
+    .features-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  @media(max-width:380px){
+    .menu-grid{grid-template-columns:repeat(3, 1fr); gap:6px;}
+    .menu-item{padding:8px 3px;}
+    .menu-item .icon{font-size:22px;}
+    .menu-item .title{font-size:10px;}
+    .welcome-card .who{font-size:12px;}
+    .welcome-card .who b{font-size:14px;}
+    .chip{padding:4px 7px; font-size:10px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- === Splash === -->
+<div id="splash">
+  <div class="logo">🎓</div>
+  <h1>Rules of language pronunciation</h1>
+  <h2>R.O.L.P</h2>
+  <p>مع الأستاذ الذكي — استمع، تحدّث، تعلّم بثقة</p>
+  <div class="loader"></div>
+</div>
+
+<!-- === Home Screen (Dashboard) === -->
+<div id="home" class="hidden">
+  <div class="home-container">
+    <!-- Header -->
+    <div class="home-header">
+      <div class="crest">🦉</div>
+      <h1>أكاديمية قواعد نطق اللغة</h1>
+      <p>منصة تعليمية ناطقة — دروس، مفردات، مرادفات، استماع، تمارين، امتحانات</p>
+    </div>
+
+    <!-- Settings Bar -->
+    <div class="settings-bar">
+      <button onclick="toggleTheme()" id="themeBtnHome">🌙 الوضع الليلي</button>
+      <button onclick="toggleSound()" id="soundBtnHome">🔊 الأصوات</button>
+      <button onclick="toggleVoice()" id="voiceBtnHome">🗣️ صوت الأستاذ</button>
+      <button onclick="continueSession()">🔄 متابعة جلستي</button>
+    </div>
+
+    <!-- Setup Cards -->
+    <div class="setup-grid">
+      <div class="setup-card">
+        <div class="card-icon">🌍</div>
+        <h3>اختر اللغة</h3>
+        <select id="studentLanguage">
+          <option value="English">🇬🇧 الإنجليزية (English)</option>
+          <option value="French">🇫🇷 الفرنسية (French)</option>
+          <option value="Spanish">🇪🇸 الإسبانية (Spanish)</option>
+          <option value="German">🇩🇪 الألمانية (German)</option>
+          <option value="Arabic">🇸🇦 العربية (Arabic)</option>
+        </select>
+      </div>
+      <div class="setup-card">
+        <div class="card-icon">👤</div>
+        <h3>اسم التلميذ</h3>
+        <input id="studentName" placeholder="اكتب اسمك هنا..." autocomplete="off"/>
+      </div>
+      <div class="setup-card">
+        <div class="card-icon">🎯</div>
+        <h3>المستوى</h3>
+        <select id="studentLevel">
+          <option value="مبتدئ">🌱 مبتدئ (A1-A2)</option>
+          <option value="متوسط">🌿 متوسط (B1)</option>
+          <option value="متقدم">🌳 متقدم (B2-C1)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Main Actions -->
+    <div class="home-actions">
+      <button class="btn-success" onclick="startLearning()">🚀 ابدأ التعلم</button>
+      <button class="btn-ghost" onclick="openLevelTest()">📊 اختبار تحديد المستوى</button>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- === Modal Screen (for lessons, etc.) === -->
+<div id="modalScreen" class="modal-screen">
+  <div class="modal-top">
+    <div class="left">
+      <button class="icon-btn" onclick="closeModal()" title="رجوع">◀</button>
+      <h2 id="modalTitle">📖 عنوان</h2>
+    </div>
+    <div class="right" id="modalTopRight"></div>
+  </div>
+  <div class="modal-content" id="modalContent"></div>
+  <div class="modal-bottom" id="modalBottom"></div>
+</div>
+
+<!-- === App Dashboard (after start) === -->
+<div id="app">
+  <div class="topbar">
+    <div class="brand" onclick="goHome()"><span class="logo-sm">🎓</span><span>أكاديمية اللغات</span></div>
+    <div class="student-chips">
+      <span class="chip" id="hName">👤 --</span>
+      <span class="chip level" id="hLevel">🎯 --</span>
+      <span class="chip score" id="hScore">⭐ 0/20</span>
+      <span class="chip streak" id="hStreak">🔥 0</span>
+    </div>
+    <div class="toolbar">
+      <button class="icon-btn" onclick="goHome()" title="الرئيسية">🏠</button>
+      <button class="icon-btn" id="soundBtn" onclick="toggleSound()" title="أصوات">🔊</button>
+      <button class="icon-btn" id="voiceBtn" onclick="toggleVoice()" title="صوت الأستاذ">🗣️</button>
+      <button class="icon-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
+      <button class="icon-btn" onclick="openStats()" title="الإحصائيات">📊</button>
+      <button class="icon-btn" onclick="confirmReset()" title="إعادة تعيين">🔄</button>
+    </div>
+  </div>
+
+  <div class="dashboard">
+    <div class="welcome-card">
+      <div class="who">
+        <div>مرحباً بك، <b id="dName">--</b> 👋</div>
+        <div style="color:var(--muted); font-size:13px; margin-top:4px;">
+          مستواك: <b id="dLevel">--</b> · النقطة: <b id="dScore">0/20</b>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-label" id="progressLabel">0% مكتمل</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>📋 القائمة الرئيسية</h3>
+      <div class="menu-grid">
+        <div class="menu-item" onclick="openModal('lessons')"><span class="icon">📖</span><span class="title">الدروس</span></div>
+        <div class="menu-item" onclick="openModal('vocab')"><span class="icon">🗂️</span><span class="title">المفردات</span></div>
+        <div class="menu-item" onclick="openModal('thesaurus')"><span class="icon">📚</span><span class="title">المرادفات</span></div>
+        <div class="menu-item" onclick="openModal('exercises')"><span class="icon">✏️</span><span class="title">تمارين</span></div>
+        <div class="menu-item" onclick="openModal('listening')"><span class="icon">🎧</span><span class="title">استماع</span></div>
+        <div class="menu-item" onclick="openModal('exams')"><span class="icon">📝</span><span class="title">امتحانات</span></div>
+        <div class="menu-item" onclick="openModal('notes')"><span class="icon">📌</span><span class="title">ملاحظات</span></div>
+        <div class="menu-item" onclick="openModal('consult')"><span class="icon">💡</span><span class="title">استشارات</span></div>
+        <div class="menu-item" onclick="openModal('certificate')"><span class="icon">🏆</span><span class="title">الشهادة</span></div>
+        <div class="menu-item" onclick="exportPDF()"><span class="icon">📄</span><span class="title">PDF</span></div>
+        <div class="menu-item" onclick="openStats()"><span class="icon">📊</span><span class="title">إحصائياتي</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="teacher-widget" id="teacherWidget">
+  <div class="teacher-avatar" id="teacherAvatar">🤖</div>
+  <div class="teacher-bubble" id="teacherBubble"></div>
+</div>
+
+<div id="toast">✅ <span id="toastMsg"></span></div>
+
+<!-- Load language data scripts -->
+<script>
+  const dataScripts = {
+    English: 'English-data.js',
+    French: 'French-data.js',
+    Spanish: 'Spanish-data.js',
+    German: 'German-data.js',
+    Arabic: 'Arabic-data.js'
+  };
+  let currentDataScript = null;
+
+  function loadLanguageData(lang) {
+    return new Promise((resolve, reject) => {
+      if (currentDataScript) {
+        currentDataScript.remove();
+      }
+      const script = document.createElement('script');
+      script.src = dataScripts[lang];
+      script.onload = () => {
+        currentDataScript = script;
+        resolve();
+      };
+      script.onerror = () => reject(new Error(`فشل تحميل ملف اللغة: ${lang}`));
+      document.head.appendChild(script);
+    });
+  }
+</script>
+
+<script>
+// ====== حالة التطبيق ======
+const STORAGE_KEY = 'english_academy_v4';
+let state = {
+  student:{name:"",level:"مبتدئ",language:"English",score:0,completedLessons:0,completedExercises:0,completedExams:0,knownWords:0,streak:0,lastVisit:null,history:[]},
+  settings:{sound:true, voice:true, theme:'dark'}
+};
+function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){ const p = JSON.parse(raw);
+      state.student = Object.assign({name:"",level:"مبتدئ",language:"English",score:0,completedLessons:0,completedExercises:0,completedExams:0,knownWords:0,streak:0,lastVisit:null,history:[]}, p.student||{});
+      state.settings = Object.assign({sound:true, voice:true, theme:'dark'}, p.settings||{});
+    }
+  }catch(e){}
+}
+
+// ====== صوت ======
+let audioCtx = null;
+function initAudio(){ if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } }
+function playTone(freq, duration=0.15, type='sine', vol=0.12){
+  if(!state.settings.sound) return;
+  try{
+    initAudio(); if(!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type; osc.frequency.value = freq;
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.start(); osc.stop(audioCtx.currentTime + duration);
+  }catch(e){}
+}
+function soundClick(){ playTone(600,0.07,'square',0.08); }
+function soundSuccess(){ playTone(800,0.09); setTimeout(()=>playTone(1000,0.1),90); setTimeout(()=>playTone(1250,0.18),200); }
+function soundError(){ playTone(280,0.18,'sawtooth',0.12); setTimeout(()=>playTone(180,0.22,'sawtooth',0.12),140); }
+function soundLevelUp(){ [500,700,900,1200].forEach((f,i)=>setTimeout(()=>playTone(f,0.12),i*110)); }
+function soundOpen(){ playTone(700,0.08,'triangle',0.1); }
+function soundClose(){ playTone(500,0.08,'triangle',0.09); }
+function toggleSound(){
+  state.settings.sound = !state.settings.sound;
+  const btn = document.getElementById('soundBtn');
+  const btnHome = document.getElementById('soundBtnHome');
+  if(btn) btn.textContent = state.settings.sound ? '🔊' : '🔇';
+  if(btnHome) btnHome.textContent = state.settings.sound ? '🔊 الأصوات' : '🔇 الأصوات';
+  if(state.settings.sound) soundClick();
+  saveState();
+}
+
+// ====== نطق ======
+let speechVoices = [];
+function loadVoices(){ try{ speechVoices = window.speechSynthesis ? speechSynthesis.getVoices() : []; }catch(e){} }
+if('speechSynthesis' in window){ loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function pickVoice(lang){
+  if(!speechVoices || !speechVoices.length) return null;
+  const base = lang.split('-')[0];
+  return speechVoices.find(v=>v.lang===lang) || speechVoices.find(v=>v.lang && v.lang.startsWith(base)) || null;
+}
+let bubbleTimer = null;
+function showBubble(text){
+  const b = document.getElementById('teacherBubble');
+  if(!b) return;
+  b.textContent = text;
+  b.classList.add('show');
+  clearTimeout(bubbleTimer);
+  bubbleTimer = setTimeout(()=> b.classList.remove('show'), Math.max(3200, text.length*90));
+}
+function setAvatarSpeaking(on){ const a = document.getElementById('teacherAvatar'); if(a) a.classList.toggle('speaking', !!on); }
+function teacherSay(text, opts){
+  opts = opts || {};
+  const lang = opts.lang || 'ar-SA';
+  const rate = opts.rate || 1;
+  const cancel = opts.cancel !== false;
+  showBubble(text);
+  if(!state.settings.voice) return;
+  if(!('speechSynthesis' in window)) return;
+  try{
+    if(cancel) speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang; u.rate = rate; u.pitch = 1;
+    const v = pickVoice(lang);
+    if(v) u.voice = v;
+    u.onstart = ()=> setAvatarSpeaking(true);
+    u.onend = ()=> setAvatarSpeaking(false);
+    u.onerror = ()=> setAvatarSpeaking(false);
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function speakArabic(text, cancel){ teacherSay(text, {lang:'ar-SA', rate:1, cancel: cancel!==false}); }
+function speakEnglish(text, cancel){ teacherSay(text, {lang:'en-US', rate:0.92, cancel: cancel!==false}); }
+function toggleVoice(){
+  state.settings.voice = !state.settings.voice;
+  const btn = document.getElementById('voiceBtn');
+  const btnHome = document.getElementById('voiceBtnHome');
+  if(btn) btn.textContent = state.settings.voice ? '🗣️' : '🤐';
+  if(btnHome) btnHome.textContent = state.settings.voice ? '🗣️ صوت الأستاذ' : '🤐 صوت الأستاذ';
+  if(state.settings.voice) speakArabic('صوت الأستاذ مُفعّل.'); else { try{ speechSynthesis.cancel(); }catch(e){} showBubble('الصوت متوقف 🤐'); }
+  saveState();
+}
+function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+function readQuestion(q){
+  if(!state.settings.voice) return;
+  const text = q.replace(/[_]+/g, ' ... ').replace(/['"]/g, '');
+  speakArabic(text);
+}
+
+const TEACHER = {
+  welcome:(name)=>[`أهلاً ${name}! أنا أستاذك الذكي.`,`مرحباً ${name}! هيا نتعلم.`,`سعيد برؤيتك ${name}`],
+  lessonOpen:(t)=>[`سنتعلم: ${t}.`,`درس: ${t}.`,`لنبدأ ${t}.`],
+  lessonDone:[`ممتاز! أنهيت الدرس.`,`أحسنت!`,`رائع!`],
+  correct:[`إجابة صحيحة!`,`رائع!`,`أحسنت!`,`برافو!`],
+  wrong:[`لا بأس. راجع القاعدة.`,`قريب! حاول مجدداً.`,`لا تقلق.`],
+  examStart:[`استعد للامتحان.`,`ركّز جيداً.`,`لا تتسرع.`],
+  vocabKnown:[`رائع!`,`ممتاز!`],
+  vocabReview:[`سنراجعها.`,`ستحفظها.`],
+  listeningIntro:[`استمع ثم أجب.`],
+  speakGood:[`نطق رائع!`,`ممتاز!`],
+  speakRetry:[`حاول مرة أخرى.`]
+};
+function examResultPhrase(s){
+  if(s>=18) return 'نتيجة استثنائية!';
+  if(s>=14) return 'جيدة جداً! استمر.';
+  if(s>=10) return 'نجحت! تحتاج مراجعة.';
+  return 'راجع الدروس وستتحسن.';
+}
+function makeSpeakBtn(text, big){
+  const btn = document.createElement('button');
+  btn.className = 'speak-btn' + (big?' big':'');
+  btn.type = 'button';
+  btn.innerHTML = '🔊';
+  btn.onclick = (e)=>{ e.stopPropagation(); soundClick(); speakEnglish(text); };
+  return btn;
+}
+function isEnglishish(str){ return /^[A-Za-z][A-Za-z\s.,'!?\-]*$/.test(str.trim()); }
+
+function applyTheme(){
+  document.body.classList.toggle('light', state.settings.theme === 'light');
+  const themeBtn = document.querySelector('[onclick="toggleTheme()"]');
+  if(themeBtn) themeBtn.textContent = state.settings.theme === 'light' ? '☀️' : '🌙';
+  const themeBtnHome = document.getElementById('themeBtnHome');
+  if(themeBtnHome) themeBtnHome.textContent = state.settings.theme === 'light' ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي';
+}
+function toggleTheme(){ state.settings.theme = state.settings.theme === 'light' ? 'dark' : 'light'; applyTheme(); saveState(); soundClick(); }
+
+// ==== تحميل البيانات ====
+async function loadDataForLanguage(lang) {
+  try {
+    await loadLanguageData(lang);
+  } catch (e) {
+    console.error(e);
+    toast('فشل تحميل بيانات اللغة، سيتم استخدام الإنجليزية', '⚠️');
+    if (lang !== 'English') await loadLanguageData('English');
+  }
+}
+
+// ==== بدء التطبيق ====
+window.addEventListener('load', ()=>{
+  loadState();
+  applyTheme();
+  const soundBtn = document.getElementById('soundBtn');
+  const voiceBtn = document.getElementById('voiceBtn');
+  const soundBtnHome = document.getElementById('soundBtnHome');
+  const voiceBtnHome = document.getElementById('voiceBtnHome');
+  
+  if(soundBtn) soundBtn.textContent = state.settings.sound ? '🔊' : '🔇';
+  if(voiceBtn) voiceBtn.textContent = state.settings.voice ? '🗣️' : '🤐';
+  if(soundBtnHome) soundBtnHome.textContent = state.settings.sound ? '🔊 الأصوات' : '🔇 الأصوات';
+  if(voiceBtnHome) voiceBtnHome.textContent = state.settings.voice ? '🗣️ صوت الأستاذ' : '🤐 صوت الأستاذ';
+
+  if(state.student.name){
+    document.getElementById('studentName').value = state.student.name;
+    document.getElementById('studentLevel').value = state.student.level;
+    document.getElementById('studentLanguage').value = state.student.language || 'English';
+  }
+
+  setTimeout(()=>{
+    const splash = document.getElementById('splash');
+    splash.style.opacity = '0';
+    setTimeout(()=>{
+      splash.style.display = 'none';
+      document.getElementById('home').classList.remove('hidden');
+    }, 800);
+  }, 2400);
+});
+
+let toastTimer = null;
+function toast(msg, icon='✅'){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.firstChild.textContent = icon + ' ';
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+async function startLearning(){
+  const name = document.getElementById('studentName').value.trim();
+  const level = document.getElementById('studentLevel').value;
+  const lang = document.getElementById('studentLanguage').value;
+  if(!name){ toast('أدخل اسمك', '⚠️'); soundError(); return; }
+
+  await loadDataForLanguage(lang);
+
+  const today = new Date().toDateString();
+  if(state.student.lastVisit === today){ }
+  else if(state.student.lastVisit === new Date(Date.now()-86400000).toDateString()){
+    state.student.streak = (state.student.streak||0) + 1;
+  } else state.student.streak = 1;
+  state.student.lastVisit = today;
+  state.student.name = name;
+  state.student.level = level;
+  state.student.language = lang;
+  
+  document.getElementById('home').classList.add('hidden');
+  document.getElementById('app').classList.add('show');
+  saveState(); updateUI(); soundLevelUp();
+  toast(`مرحباً ${name}!`, '🎓');
+  speakArabic(pick(TEACHER.welcome(name)));
+}
+
+function goHome(){
+  soundClick();
+  document.getElementById('app').classList.remove('show');
+  document.getElementById('home').classList.remove('hidden');
+  // إعادة تعبئة الحقول
+  if(state.student.name){
+    document.getElementById('studentName').value = state.student.name;
+    document.getElementById('studentLevel').value = state.student.level;
+    document.getElementById('studentLanguage').value = state.student.language || 'English';
+  }
+}
+
+async function continueSession(){
+  loadState();
+  if(state.student.name){
+    await loadDataForLanguage(state.student.language || 'English');
+    document.getElementById('home').classList.add('hidden');
+    document.getElementById('app').classList.add('show');
+    updateUI(); soundOpen();
+    toast('مرحباً بعودتك', '👋');
+  } else toast('لا توجد جلسة', 'ℹ️');
+}
+
+function updateUI(){
+  const s = state.student;
+  document.getElementById('hName').textContent = '👤 ' + (s.name||'--');
+  document.getElementById('hLevel').textContent = '🎯 ' + s.level;
+  document.getElementById('hScore').textContent = '⭐ ' + s.score.toFixed(1) + '/20';
+  document.getElementById('hStreak').textContent = '🔥 ' + (s.streak||0);
+  document.getElementById('dName').textContent = s.name;
+  document.getElementById('dLevel').textContent = s.level;
+  document.getElementById('dScore').textContent = s.score.toFixed(1) + '/20';
+
+  if(document.getElementById('statLessons')) document.getElementById('statLessons').textContent = s.completedLessons;
+  if(document.getElementById('statExercises')) document.getElementById('statExercises').textContent = s.completedExercises;
+  if(document.getElementById('statExams')) document.getElementById('statExams').textContent = s.completedExams;
+  if(document.getElementById('statScore')) document.getElementById('statScore').textContent = s.score.toFixed(1);
+
+  const total = Math.max(12, s.completedLessons + s.completedExercises + s.completedExams);
+  const done = s.completedLessons + s.completedExercises + s.completedExams;
+  const percent = Math.min(100, (done / total) * 100);
+  document.getElementById('progressFill').style.width = percent + '%';
+  document.getElementById('progressLabel').textContent = Math.round(percent) + '% مكتمل';
+}
+function renderBars(){
+  const wrap = document.getElementById('bars');
+  if(!wrap) return;
+  
+  const s = state.student;
+  const max = Math.max(1, s.completedLessons, s.completedExercises, s.completedExams, 1);
+  const data = [
+    {l:'دروس', v:s.completedLessons, c:'linear-gradient(180deg,#3b82f6,#8b5cf6)'},
+    {l:'تمارين', v:s.completedExercises, c:'linear-gradient(180deg,#10b981,#3b82f6)'},
+    {l:'امتحانات', v:s.completedExams, c:'linear-gradient(180deg,#f5b301,#ef4444)'},
+    {l:'النقطة', v:Math.round(s.score), c:'linear-gradient(180deg,#8b5cf6,#ec4899)'}
+  ];
+  wrap.innerHTML = '';
+  data.forEach(d=>{
+    const h = Math.max(6, (d.v / max) * 100);
+    const bar = document.createElement('div'); bar.className = 'bar';
+    bar.innerHTML = `<div class="col" style="height:${h}%; background:${d.c};"></div><div class="lbl">${d.l} (${d.v})</div>`;
+    wrap.appendChild(bar);
+  });
+}
+function addScore(amount){
+  state.student.score = Math.min(20, state.student.score + amount);
+  updateUI(); saveState();
+  if(state.student.score >= 20) soundLevelUp();
+}
+
+function openModal(type, extra){
+  soundOpen();
+  const screen = document.getElementById('modalScreen');
+  const title = document.getElementById('modalTitle');
+  const content = document.getElementById('modalContent');
+  const bottom = document.getElementById('modalBottom');
+  const topRight = document.getElementById('modalTopRight');
+  content.innerHTML = ''; bottom.innerHTML = ''; topRight.innerHTML = '';
+
+  if(type === 'lessons'){ title.innerHTML = '📖 الدروس — ' + state.student.level; renderLessons(content, bottom); }
+  else if(type === 'vocab'){ title.innerHTML = '🗂️ بطاقات المفردات — ' + state.student.level; renderVocab(content, bottom); }
+  else if(type === 'thesaurus'){ title.innerHTML = '📚 المعجم والمرادفات'; renderThesaurus(content, bottom); }
+  else if(type === 'exercises'){ title.innerHTML = '✏️ تمارين الفهم — ' + state.student.level; renderExercises(content, bottom); }
+  else if(type === 'listening'){ title.innerHTML = '🎧 استماع ونطق — ' + state.student.level; renderListening(content, bottom); }
+  else if(type === 'exams'){ title.innerHTML = '📝 الامتحان — ' + state.student.level; renderExams(content, bottom, topRight); }
+  else if(type === 'notes'){
+    title.innerHTML = '📌 ملاحظات المعلم';
+    (SCHOOL_DATA.notes||[]).forEach(n=>{ const d = document.createElement('div'); d.className = 'note'; d.textContent = n; content.appendChild(d); });
+    bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`;
+  }
+  else if(type === 'consult'){
+    title.innerHTML = '💡 استشارات ذكية';
+    (SCHOOL_DATA.consultations||[]).forEach(n=>{ const d = document.createElement('div'); d.className = 'consult'; d.textContent = n; content.appendChild(d); });
+    bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`;
+  }
+  else if(type === 'certificate'){ title.innerHTML = '🏆 شهادة التلميذ'; renderCertificate(content, bottom); }
+  else if(type === 'result'){ title.innerHTML = '📊 نتيجة الامتحان'; renderResult(content, bottom, extra); }
+
+  document.body.classList.add('modal-open');
+  screen.classList.add('active');
+}
+function closeModal(){
+  soundClose();
+  try{ speechSynthesis.cancel(); }catch(e){}
+  setAvatarSpeaking(false);
+  const screen = document.getElementById('modalScreen');
+  screen.classList.remove('active');
+  document.body.classList.remove('modal-open');
+  if(examTimer){ clearInterval(examTimer); examTimer = null; }
+  if(micRecognition){ try{ micRecognition.stop(); }catch(e){} }
+}
+
+function renderLessons(content, bottom){
+  const lessons = (SCHOOL_DATA.lessons && SCHOOL_DATA.lessons[state.student.level]) || [];
+  if(!lessons.length){ content.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد دروس.</p>'; bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`; return; }
+  let idx = 0;
+  function draw(){
+    const l = lessons[idx];
+    content.innerHTML = '';
+    const box = document.createElement('div'); box.className = 'question';
+    const qtext = document.createElement('div'); qtext.className = 'qtext';
+    qtext.innerHTML = `<span class="qnum">${idx+1}/${lessons.length}</span>${l.title}`;
+    box.appendChild(qtext);
+    const p = document.createElement('p'); p.style.lineHeight='1.9'; p.style.fontSize='15px'; p.textContent = l.content;
+    box.appendChild(p);
+    const phrasesWrap = document.createElement('div'); phrasesWrap.style.marginTop='14px';
+    (l.phrases||[]).forEach(ph=>{
+      const row = document.createElement('div');
+      row.style.cssText='display:flex; align-items:center; gap:10px; margin:8px 0; background:var(--card); padding:10px 12px; border-radius:10px; border:1px solid var(--line);';
+      const txt = document.createElement('div'); txt.style.flex='1';
+      txt.innerHTML = `<b style="color:var(--gold);">${ph.en}</b><br><span style="color:var(--muted); font-size:13px;">${ph.ar}</span>`;
+      row.appendChild(txt);
+      row.appendChild(makeSpeakBtn(ph.en));
+      phrasesWrap.appendChild(row);
+    });
+    box.appendChild(phrasesWrap);
+    const explain = document.createElement('div'); explain.className = 'explain show';
+    explain.innerHTML = `💡 <b>نصيحة:</b> ${l.tip}`;
+    box.appendChild(explain);
+    content.appendChild(box);
+    bottom.innerHTML = `
+      <button class="btn-ghost" ${idx===0?'disabled':''} onclick="__lessonPrev()">◀ السابق</button>
+      <button class="btn-success" onclick="__lessonDone()">✅ أكملت الدرس</button>
+      <button class="btn-primary" ${idx===lessons.length-1?'disabled':''} onclick="__lessonNext()">التالي ▶</button>
+    `;
+    speakArabic(pick(TEACHER.lessonOpen(l.title)));
+  }
+  window.__lessonPrev = ()=>{ if(idx>0){ idx--; soundClick(); draw(); } };
+  window.__lessonNext = ()=>{ if(idx<lessons.length-1){ idx++; soundClick(); draw(); } };
+  window.__lessonDone = ()=>{
+    state.student.completedLessons++;
+    addScore(0.5);
+    soundSuccess(); confetti();
+    toast('+0.5 نقطة', '🎉');
+    speakArabic(pick(TEACHER.lessonDone));
+    saveState();
+    if(idx < lessons.length-1){ idx++; draw(); } else closeModal();
+  };
+  draw();
+}
+
+function renderVocab(content, bottom){
+  const words = (SCHOOL_DATA.vocab && SCHOOL_DATA.vocab[state.student.level]) || [];
+  if(!words.length){ content.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد بطاقات.</p>'; bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`; return; }
+  let idx = 0;
+  function draw(){
+    const w = words[idx];
+    content.innerHTML = '';
+    const wrap = document.createElement('div'); wrap.className = 'flash-wrap';
+    const card = document.createElement('div'); card.className = 'flashcard';
+    const inner = document.createElement('div'); inner.className = 'flashcard-inner';
+    const front = document.createElement('div'); front.className = 'flashcard-face front';
+    front.innerHTML = `<div class="emoji">${w.emoji||'📖'}</div><div class="word">${w.en}</div><div class="hint">اضغط للكشف 👆</div>`;
+    const back = document.createElement('div'); back.className = 'flashcard-face back';
+    back.innerHTML = `<div class="emoji">${w.emoji||'📖'}</div><div class="translit">${w.ar}</div><div class="hint">${w.en}</div>`;
+    inner.appendChild(front); inner.appendChild(back); card.appendChild(inner);
+    card.onclick = ()=>{ card.classList.toggle('flipped'); soundClick(); };
+    wrap.appendChild(card);
+    const speakRow = document.createElement('div'); speakRow.className='flash-actions';
+    speakRow.appendChild(makeSpeakBtn(w.en, true));
+    wrap.appendChild(speakRow);
+    const prog = document.createElement('div'); prog.className='flash-progress';
+    prog.textContent = `البطاقة ${idx+1} من ${words.length}`;
+    wrap.appendChild(prog);
+    content.appendChild(wrap);
+    bottom.innerHTML = `
+      <button class="btn-ghost" ${idx===0?'disabled':''} onclick="__vocabPrev()">◀ السابق</button>
+      <button class="btn-danger" onclick="__vocabReview()">🔁 مراجعة</button>
+      <button class="btn-success" onclick="__vocabKnown()">✅ أعرفها</button>
+      <button class="btn-primary" ${idx===words.length-1?'disabled':''} onclick="__vocabNext()">التالي ▶</button>
+    `;
+    speakEnglish(w.en);
+  }
+  window.__vocabPrev = ()=>{ if(idx>0){ idx--; soundClick(); draw(); } };
+  window.__vocabNext = ()=>{ if(idx<words.length-1){ idx++; soundClick(); draw(); } };
+  window.__vocabKnown = ()=>{
+    state.student.knownWords = (state.student.knownWords||0)+1;
+    addScore(0.2); soundSuccess();
+    toast('كلمة محفوظة', '✅');
+    speakArabic(pick(TEACHER.vocabKnown));
+    saveState();
+    if(idx<words.length-1){ idx++; draw(); } else closeModal();
+  };
+  window.__vocabReview = ()=>{
+    soundClick();
+    speakArabic(pick(TEACHER.vocabReview));
+    if(idx<words.length-1){ idx++; draw(); } else closeModal();
+  };
+  draw();
+}
+
+function renderThesaurus(content, bottom){
+  const thes = SCHOOL_DATA.thesaurus || {};
+  const topics = Object.keys(thes);
+  if(!topics.length){ content.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد بيانات.</p>'; bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`; return; }
+  let currentTopic = topics[0];
+  let searchTerm = '';
+
+  function draw(){
+    content.innerHTML = '';
+    const searchWrap = document.createElement('div');
+    searchWrap.style.marginBottom = '14px';
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.placeholder = '🔍 ابحث عن كلمة...';
+    searchInput.value = searchTerm;
+    searchInput.oninput = (e)=>{ searchTerm = e.target.value.toLowerCase().trim(); drawList(); };
+    searchWrap.appendChild(searchInput);
+    content.appendChild(searchWrap);
+    const tabs = document.createElement('div'); tabs.className = 'topic-tabs';
+    topics.forEach(t=>{
+      const tab = document.createElement('button');
+      tab.className = 'topic-tab' + (t===currentTopic?' active':'');
+      tab.textContent = t;
+      tab.onclick = ()=>{ currentTopic = t; soundClick(); draw(); };
+      tabs.appendChild(tab);
+    });
+    content.appendChild(tabs);
+    const listWrap = document.createElement('div'); listWrap.id = 'thesList';
+    content.appendChild(listWrap);
+    drawList();
+
+    function drawList(){
+      const listWrap = document.getElementById('thesList');
+      if(!listWrap) return;
+      listWrap.innerHTML = '';
+      let words = thes[currentTopic] || [];
+      if(searchTerm) words = words.filter(w => w.word.toLowerCase().includes(searchTerm) || (w.ar && w.ar.includes(searchTerm)));
+      if(!words.length){ listWrap.innerHTML = '<p style="color:var(--muted); text-align:center; padding:20px;">لا توجد نتائج.</p>'; return; }
+      const countInfo = document.createElement('div');
+      countInfo.style.cssText = 'color:var(--muted); font-size:13px; margin-bottom:10px;';
+      countInfo.textContent = `📖 ${words.length} كلمة في "${currentTopic}"`;
+      listWrap.appendChild(countInfo);
+      words.forEach(w=>{
+        const box = document.createElement('div'); box.className = 'syn-box';
+        const head = document.createElement('div'); head.className = 'head';
+        const leftDiv = document.createElement('div');
+        leftDiv.innerHTML = `<div class="word">${w.word} <span style="font-size:14px; color:var(--blue);">${w.ar||''}</span></div>`;
+        head.appendChild(leftDiv);
+        head.appendChild(makeSpeakBtn(w.word, true));
+        box.appendChild(head);
+        if(w.syn && w.syn.length){
+          const synLabel = document.createElement('div');
+          synLabel.style.cssText = 'color:var(--green); font-size:13px; font-weight:800; margin-top:8px;';
+          synLabel.textContent = '🟢 مرادفات:';
+          box.appendChild(synLabel);
+          const synTags = document.createElement('div'); synTags.className = 'tags';
+          w.syn.forEach(s=>{
+            const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = s;
+            tag.onclick = (e)=>{ e.stopPropagation(); soundClick(); speakEnglish(s); };
+            synTags.appendChild(tag);
+          });
+          box.appendChild(synTags);
+        }
+        if(w.ant && w.ant.length){
+          const antLabel = document.createElement('div');
+          antLabel.style.cssText = 'color:var(--red); font-size:13px; font-weight:800; margin-top:10px;';
+          antLabel.textContent = '🔴 أضداد:';
+          box.appendChild(antLabel);
+          const antTags = document.createElement('div'); antTags.className = 'tags';
+          w.ant.forEach(a=>{
+            const tag = document.createElement('span'); tag.className = 'tag ant'; tag.textContent = a;
+            tag.onclick = (e)=>{ e.stopPropagation(); soundClick(); speakEnglish(a); };
+            antTags.appendChild(tag);
+          });
+          box.appendChild(antTags);
+        }
+        if(w.example){
+          const ex = document.createElement('div'); ex.className = 'example';
+          ex.innerHTML = `📝 "${w.example}"`;
+          box.appendChild(ex);
+        }
+        listWrap.appendChild(box);
+      });
+    }
+  }
+  bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`;
+  draw();
+}
+
+function renderExercises(content, bottom){
+  const exs = (SCHOOL_DATA.exercises && SCHOOL_DATA.exercises[state.student.level]) || [];
+  if(!exs.length){ content.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد تمارين.</p>'; bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`; return; }
+  let current = 0;
+  let answered = false;
+
+  function draw(){
+    const ex = exs[current];
+    answered = false;
+    content.innerHTML = '';
+    const box = document.createElement('div'); box.className = 'question';
+    const qtext = document.createElement('div'); qtext.className = 'qtext';
+    qtext.innerHTML = `<span class="qnum">${current+1}/${exs.length}</span>${ex.q}`;
+    box.appendChild(qtext);
+    const opts = document.createElement('div'); opts.id='opts';
+    box.appendChild(opts);
+    const explain = document.createElement('div'); explain.className='explain'; explain.id='explain';
+    explain.innerHTML = `💡 ${ex.explain}`;
+    box.appendChild(explain);
+    content.appendChild(box);
+    ex.options.forEach((opt, i)=>{
+      const d = document.createElement('div'); d.className = 'option';
+      const span = document.createElement('span'); span.className='option-text'; span.textContent = opt;
+      d.appendChild(span);
+      if(isEnglishish(opt)) d.appendChild(makeSpeakBtn(opt));
+      d.onclick = ()=>{
+        if(answered) return;
+        answered = true;
+        const all = opts.querySelectorAll('.option');
+        all.forEach((o,j)=>{
+          o.classList.add('disabled');
+          if(j === ex.correct) o.classList.add('correct');
+          if(j === i && i !== ex.correct) o.classList.add('wrong');
+        });
+        if(i === ex.correct){
+          soundSuccess();
+          state.student.completedExercises++;
+          addScore(0.5);
+          confetti();
+          toast('+0.5 نقطة', '✅');
+          if(ex.full){ speakEnglish(ex.full); speakArabic(pick(TEACHER.correct), false); }
+          else speakArabic(pick(TEACHER.correct));
+        } else {
+          soundError(); toast('إجابة خاطئة', '❌');
+          if(ex.full){ speakEnglish(ex.full); speakArabic(pick(TEACHER.wrong), false); }
+          else speakArabic(pick(TEACHER.wrong));
+        }
+        explain.classList.add('show');
+        saveState(); updateUI();
+      };
+      opts.appendChild(d);
+    });
+    bottom.innerHTML = `
+      <button class="btn-ghost" ${current===0?'disabled':''} onclick="__exPrev()">◀ السابق</button>
+      <span style="color:var(--muted); font-size:13px;">${current+1} / ${exs.length}</span>
+      <button class="btn-primary" ${current===exs.length-1?'disabled':''} onclick="__exNext()">التالي ▶</button>
+    `;
+    setTimeout(()=>readQuestion(ex.q), 350);
+  }
+  window.__exPrev = ()=>{ if(current>0){ current--; soundClick(); draw(); } };
+  window.__exNext = ()=>{ if(current<exs.length-1){ current++; soundClick(); draw(); } };
+  draw();
+}
+
+let micRecognition = null;
+function normalizeForCompare(s){ return s.toLowerCase().replace(/[.,!?']/g,'').trim().split(/\s+/).filter(Boolean); }
+function similarity(a,b){
+  const wa = normalizeForCompare(a), wb = normalizeForCompare(b);
+  if(!wa.length) return 0;
+  let match = 0;
+  wb.forEach(w=>{ if(wa.includes(w)) match++; });
+  return match / wa.length;
+}
+function renderListening(content, bottom){
+  const data = SCHOOL_DATA.listening && SCHOOL_DATA.listening[state.student.level];
+  content.innerHTML = '';
+  if(!data){ content.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا يوجد محتوى.</p>'; bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`; return; }
+  const introTitle = document.createElement('h3');
+  introTitle.style.cssText='color:var(--gold); margin-bottom:10px;';
+  introTitle.textContent = '🎧 تمارين الفهم السمعي';
+  content.appendChild(introTitle);
+  (data.comprehension||[]).forEach((item, i)=>{
+    const box = document.createElement('div'); box.className='listen-item';
+    let answered = false;
+    const head = document.createElement('div');
+    head.style.cssText='display:flex; align-items:center; gap:10px; margin-bottom:10px;';
+    const label = document.createElement('div'); label.innerHTML = `<b>سؤال ${i+1}:</b> استمع ثم اختر`;
+    label.style.flex = '1';
+    head.appendChild(label);
+    head.appendChild(makeSpeakBtn(item.en, true));
+    box.appendChild(head);
+    const optsWrap = document.createElement('div');
+    item.options.forEach((opt, j)=>{
+      const d = document.createElement('div'); d.className='option';
+      const span = document.createElement('span'); span.className='option-text'; span.textContent = opt;
+      d.appendChild(span);
+      d.onclick = ()=>{
+        if(answered) return; answered = true;
+        optsWrap.querySelectorAll('.option').forEach((o,k)=>{
+          o.classList.add('disabled');
+          if(k===item.correct) o.classList.add('correct');
+          if(k===j && j!==item.correct) o.classList.add('wrong');
+        });
+        if(j===item.correct){ soundSuccess(); addScore(0.3); confetti(); toast('+0.3 نقطة','✅'); speakArabic(pick(TEACHER.correct)); }
+        else { soundError(); toast('حاول مرة أخرى','❌'); speakArabic(pick(TEACHER.wrong)); }
+        saveState(); updateUI();
+      };
+      optsWrap.appendChild(d);
+    });
+    box.appendChild(optsWrap);
+    content.appendChild(box);
+  });
+  const speakTitle = document.createElement('h3');
+  speakTitle.style.cssText='color:var(--gold); margin:18px 0 10px;';
+  speakTitle.textContent = '🎤 تمرين النطق';
+  content.appendChild(speakTitle);
+  const speakBox = document.createElement('div'); speakBox.className='listen-item'; speakBox.style.textAlign='center';
+  const target = data.speak;
+  const targetLine = document.createElement('div');
+  targetLine.style.cssText='font-size:18px; font-weight:800; color:var(--gold); margin-bottom:10px;';
+  targetLine.textContent = target;
+  speakBox.appendChild(targetLine);
+  speakBox.appendChild(makeSpeakBtn(target, true));
+  const micWrap = document.createElement('div'); micWrap.style.marginTop='16px';
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const resultLine = document.createElement('div'); resultLine.className='speak-result';
+  if(SR){
+    const micBtn = document.createElement('button'); micBtn.className='mic-btn'; micBtn.innerHTML='🎤';
+    micBtn.onclick = ()=>{
+      try{
+        if(micRecognition){ micRecognition.stop(); }
+        micRecognition = new SR();
+        micRecognition.lang = 'en-US';
+        micRecognition.interimResults = false;
+        micRecognition.maxAlternatives = 1;
+        micBtn.classList.add('listening');
+        resultLine.textContent = '🎙️ أنا أستمع...'; resultLine.style.color='var(--blue)';
+        speakArabic(`كرر: ${target}`);
+        micRecognition.onresult = (ev)=>{
+          const heard = ev.results[0][0].transcript;
+          const score = similarity(target, heard);
+          micBtn.classList.remove('listening');
+          if(score >= 0.6){
+            resultLine.innerHTML = `✅ سمعت: "${heard}" — جيد!`;
+            resultLine.style.color='var(--green)';
+            soundSuccess(); confetti(); addScore(0.4); saveState(); updateUI();
+            speakArabic(pick(TEACHER.speakGood));
+          } else {
+            resultLine.innerHTML = `🔁 سمعت: "${heard}" — حاول مجدداً.`;
+            resultLine.style.color='var(--red)';
+            soundError(); speakArabic(pick(TEACHER.speakRetry));
+          }
+        };
+        micRecognition.onerror = ()=>{
+          micBtn.classList.remove('listening');
+          resultLine.textContent = '⚠️ لم أسمعك.'; resultLine.style.color='var(--muted)';
+        };
+        micRecognition.onend = ()=> micBtn.classList.remove('listening');
+        micRecognition.start();
+      }catch(e){
+        resultLine.textContent = '⚠️ تعذّر تشغيل الميكروفون.'; resultLine.style.color='var(--muted)';
+      }
+    };
+    micWrap.appendChild(micBtn);
+  } else {
+    const info = document.createElement('div'); info.style.cssText='color:var(--muted); font-size:13px;';
+    info.textContent = 'ℹ️ متصفحك لا يدعم التعرف الصوتي.';
+    micWrap.appendChild(info);
+  }
+  speakBox.appendChild(micWrap);
+  speakBox.appendChild(resultLine);
+  content.appendChild(speakBox);
+  bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`;
+  speakArabic(pick(TEACHER.listeningIntro));
+}
+
+let examTimer = null;
+function renderExams(content, bottom, topRight){
+  const exs = (SCHOOL_DATA.exams && SCHOOL_DATA.exams[state.student.level]) || [];
+  if(!exs.length){ content.innerHTML = '<p style="text-align:center;color:var(--muted);padding:20px;">لا توجد امتحانات.</p>'; bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`; return; }
+  const duration = exs.length * 40;
+  let remaining = duration;
+  const answers = new Array(exs.length).fill(null);
+  let submitted = false;
+  content.innerHTML = '';
+  exs.forEach((ex, i)=>{
+    const q = document.createElement('div'); q.className = 'question';
+    const qtext = document.createElement('div'); qtext.className='qtext';
+    qtext.innerHTML = `<span class="qnum">${i+1}/${exs.length}</span>${ex.q}`;
+    if(ex.audio) qtext.appendChild(makeSpeakBtn(ex.audio));
+    q.appendChild(qtext);
+    const opts = document.createElement('div');
+    ex.options.forEach((opt, j)=>{
+      const d = document.createElement('div'); d.className = 'option';
+      const span = document.createElement('span'); span.className='option-text'; span.textContent = opt;
+      d.appendChild(span);
+      if(isEnglishish(opt)) d.appendChild(makeSpeakBtn(opt));
+      d.onclick = ()=>{
+        if(submitted) return;
+        opts.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+        d.classList.add('selected');
+        answers[i] = j;
+        soundClick();
+      };
+      opts.appendChild(d);
+    });
+    q.appendChild(opts);
+    content.appendChild(q);
+  });
+  const timerEl = document.createElement('div'); timerEl.className = 'timer';
+  timerEl.innerHTML = `⏱️ <span id="timeText">--:--</span>`;
+  topRight.appendChild(timerEl);
+  const timeText = timerEl.querySelector('#timeText');
+  function tick(){
+    const m = Math.floor(remaining/60).toString().padStart(2,'0');
+    const s = (remaining%60).toString().padStart(2,'0');
+    timeText.textContent = `${m}:${s}`;
+    if(remaining <= 10) timerEl.classList.add('warn');
+    if(remaining <= 0){ __examSubmit(); }
+    remaining--;
+  }
+  tick();
+  examTimer = setInterval(tick, 1000);
+  bottom.innerHTML = `
+    <button class="btn-ghost" onclick="__examReset()">🔄 إعادة</button>
+    <button class="btn-warn" onclick="__examSubmit()">📤 تسليم</button>
+  `;
+  speakArabic(pick(TEACHER.examStart));
+  setTimeout(()=>readQuestion(exs[0].q), 1200);
+
+  window.__examReset = ()=>{
+    if(submitted) return;
+    answers.fill(null);
+    content.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+    soundClick();
+  };
+  window.__examSubmit = ()=>{
+    if(submitted) return;
+    submitted = true;
+    clearInterval(examTimer); examTimer = null;
+    let correct = 0;
+    const questions = content.querySelectorAll('.question');
+    exs.forEach((ex, i)=>{
+      const opts = questions[i].querySelectorAll('.option');
+      opts.forEach((o,j)=>{
+        o.classList.add('disabled');
+        if(j === ex.correct) o.classList.add('correct');
+        if(answers[i] === j && j !== ex.correct) o.classList.add('wrong');
+      });
+      if(answers[i] === ex.correct) correct++;
+    });
+    const score = Math.round((correct / exs.length) * 20 * 10) / 10;
+    state.student.completedExams++;
+    state.student.history.push({date:new Date().toISOString(), score, exam:state.student.level});
+    addScore(score / 4);
+    saveState();
+    if(score >= 10){ soundSuccess(); confetti(); } else soundError();
+    speakArabic(examResultPhrase(score));
+    openModal('result', {score, correct, total:exs.length});
+  };
+}
+
+function renderResult(content, bottom, extra){
+  const {score, correct, total} = extra;
+  let mention = 'ضعيف';
+  if(score >= 18) mention = 'ممتاز 🏅';
+  else if(score >= 16) mention = 'جيد جداً 🥇';
+  else if(score >= 14) mention = 'جيد 🥈';
+  else if(score >= 12) mention = 'مقبول 🥉';
+  else if(score >= 10) mention = 'ناجح';
+  content.innerHTML = `
+    <div class="result-box">
+      <div style="font-size:14px; color:var(--muted);">نتيجتك</div>
+      <div class="score">${score}/20</div>
+      <div class="mention">${mention}</div>
+      <div style="color:var(--muted); font-size:13px; margin-top:6px;">${correct} من ${total} صحيحة</div>
+    </div>
+  `;
+  bottom.innerHTML = `
+    <button class="btn-ghost" onclick="closeModal()">إغلاق</button>
+    <button class="btn-primary" onclick="exportPDF()">📄 PDF</button>
+  `;
+}
+
+function renderCertificate(content, bottom){
+  const s = state.student;
+  let mention = 'ضعيف';
+  if(s.score >= 18) mention = 'ممتاز 🏅';
+  else if(s.score >= 16) mention = 'جيد جداً 🥇';
+  else if(s.score >= 14) mention = 'جيد 🥈';
+  else if(s.score >= 12) mention = 'مقبول 🥉';
+  else if(s.score >= 10) mention = 'ناجح';
+  content.innerHTML = `
+    <div class="certificate">
+      <h2>🏆 شهادة تقدير 🏆</h2>
+      <p>تشهد أكاديمية اللغة الإنجليزية أن التلميذ</p>
+      <div class="name">${s.name}</div>
+      <p>قد أتم بنجاح المستوى <b>${s.level}</b></p>
+      <p>بمعدل عام <b>${s.score.toFixed(1)}/20</b></p>
+      <p>مع تقدير: <b>${mention}</b></p>
+      <div class="seal">🏅</div>
+      <p style="font-size:12px; margin-top:10px; color:#78350f;">📅 ${new Date().toLocaleDateString('ar-EG')}</p>
+    </div>
+  `;
+  bottom.innerHTML = `
+    <button class="btn-ghost" onclick="closeModal()">إغلاق</button>
+    <button class="btn-primary" onclick="exportPDF()">📄 PDF</button>
+  `;
+}
+
+function openStats(){
+  soundOpen();
+  const s = state.student;
+  const content = document.getElementById('modalContent');
+  const bottom = document.getElementById('modalBottom');
+  document.getElementById('modalTitle').innerHTML = '📊 إحصائياتي';
+  let historyRows = '';
+  if(s.history && s.history.length){
+    historyRows = s.history.slice(-6).reverse().map(h=>{
+      const d = new Date(h.date);
+      return `<div class="note" style="border-right-color:var(--blue); display:flex; justify-content:space-between;">
+        <span>${h.exam} — ${d.toLocaleDateString('ar-EG')}</span>
+        <b style="color:var(--gold);">${h.score}/20</b>
+      </div>`;
+    }).join('');
+  } else historyRows = '<p style="color:var(--muted);">لا يوجد سجل.</p>';
+  
+  content.innerHTML = `
+    <h3 style="color:var(--gold); margin-bottom:12px;">📈 ملخص التطور</h3>
+    <div class="stats-grid" style="grid-template-columns:repeat(2,1fr); margin-bottom:20px;">
+      <div class="stat"><div class="num" id="statLessons">${s.completedLessons}</div><div class="lbl">دروس مكتملة</div></div>
+      <div class="stat"><div class="num" id="statExercises">${s.completedExercises}</div><div class="lbl">تمارين مكتملة</div></div>
+      <div class="stat"><div class="num" id="statExams">${s.completedExams}</div><div class="lbl">امتحانات</div></div>
+      <div class="stat"><div class="num" id="statScore">${s.score.toFixed(1)}</div><div class="lbl">النقطة /20</div></div>
+    </div>
+    
+    <h3 style="color:var(--gold); margin-top:18px;">📈 تطوري السريع</h3>
+    <div class="panel" style="margin-top:10px; background:var(--card-2);">
+      <div class="bars" id="bars"></div>
+    </div>
+    
+    <h3 style="color:var(--gold); margin-top:18px;">📈 آخر الامتحانات</h3>
+    ${historyRows}
+    
+    <h3 style="color:var(--gold); margin-top:18px;">📊 إحصائيات إضافية</h3>
+    <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="stat"><div class="num">${s.knownWords||0}</div><div class="lbl">كلمات محفوظة</div></div>
+      <div class="stat"><div class="num">${s.streak||0}</div><div class="lbl">أيام المتابعة</div></div>
+    </div>
+  `;
+  bottom.innerHTML = `<button class="btn-ghost" onclick="closeModal()">إغلاق</button>`;
+  document.body.classList.add('modal-open');
+  document.getElementById('modalScreen').classList.add('active');
+  
+  setTimeout(()=>renderBars(), 50);
+}
+
+function exportPDF(){
+  soundClick();
+  const s = state.student;
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>نتيجة</title>
+    <style>body{font-family:Tahoma; padding:30px; text-align:center;} h1{color:#1e3a8a;} .box{border:3px double #f5b301; padding:24px; border-radius:14px; margin-top:20px; max-width:600px; margin-inline:auto;} .score{font-size:52px; color:#10b981; font-weight:900;} .row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed #ddd;} .seal{font-size:64px; margin-top:10px;}</style>
+    </head><body>
+      <h1>🎓 أكاديمية اللغة الإنجليزية</h1>
+      <div class="box">
+        <h2>${s.name}</h2>
+        <p>المستوى: ${s.level}</p>
+        <div class="score">${s.score.toFixed(1)}/20</div>
+        <div class="row"><span>الدروس</span><b>${s.completedLessons}</b></div>
+        <div class="row"><span>التمارين</span><b>${s.completedExercises}</b></div>
+        <div class="row"><span>الامتحانات</span><b>${s.completedExams}</b></div>
+        <div class="row"><span>الكلمات</span><b>${s.knownWords||0}</b></div>
+        <div class="row"><span>أيام المتابعة</span><b>${s.streak||0}</b></div>
+        <p>التاريخ: ${new Date().toLocaleDateString('ar-EG')}</p>
+        <div class="seal">🏅</div>
+      </div>
+      <script>window.print();<\/script>
+    </body></html>
+  `);
+  w.document.close();
+}
+
+function openLevelTest(){
+  soundOpen();
+  const questions = [
+    {q:"'She ___ a teacher.'", options:["is","am","are","be"], correct:0, level:0},
+    {q:"'I ___ to school every day.'", options:["go","goes","going","went"], correct:0, level:0},
+    {q:"'Yesterday, I ___ a movie.'", options:["watch","watches","watched","watching"], correct:2, level:1},
+    {q:"'The keys are ___ the table.'", options:["in","on","at","by"], correct:1, level:1},
+    {q:"'She is ___ than her brother.'", options:["fast","faster","fastest","more fast"], correct:1, level:1},
+    {q:"'If I ___ rich, I would travel.'", options:["am","was","were","be"], correct:2, level:2},
+    {q:"'The letter ___ yesterday.'", options:["wrote","was written","is writing","write"], correct:1, level:2},
+    {q:"'Break the ice' تعني:", options:["كسر الجمود","كسر الثلج","البرد","إنهاء الاجتماع"], correct:0, level:2}
+  ];
+  let answers = new Array(questions.length).fill(null);
+  const content = document.getElementById('modalContent');
+  const bottom = document.getElementById('modalBottom');
+  document.getElementById('modalTitle').innerHTML = '📊 اختبار تحديد المستوى';
+  content.innerHTML = '';
+  const introP = document.createElement('p'); introP.style.cssText='color:var(--muted); margin-bottom:10px;';
+  introP.textContent = 'أجب عن الأسئلة.';
+  content.appendChild(introP);
+  questions.forEach((q, i)=>{
+    const div = document.createElement('div'); div.className = 'question';
+    const qtext = document.createElement('div'); qtext.className='qtext';
+    qtext.innerHTML = `<span class="qnum">${i+1}</span>${q.q}`;
+    div.appendChild(qtext);
+    q.options.forEach((opt, j)=>{
+      const d = document.createElement('div');
+      d.className = 'option' + (answers[i]===j?' selected':'');
+      const span = document.createElement('span'); span.className='option-text'; span.textContent = opt;
+      d.appendChild(span);
+      if(isEnglishish(opt)) d.appendChild(makeSpeakBtn(opt));
+      d.onclick = ()=>{
+        answers[i] = j;
+        div.querySelectorAll('.option').forEach((o,k)=>o.classList.toggle('selected', k===j));
+        soundClick();
+      };
+      div.appendChild(d);
+    });
+    content.appendChild(div);
+  });
+  bottom.innerHTML = `
+    <button class="btn-ghost" onclick="closeModal()">إغلاق</button>
+    <button class="btn-primary" onclick="__levelEval()">تقييم</button>
+  `;
+  window.__levelEval = ()=>{
+    if(answers.some(a=>a===null)){ toast('أجب عن الكل', '⚠️'); soundError(); return; }
+    let score = 0;
+    answers.forEach((a,i)=>{ if(a === questions[i].correct) score += questions[i].level+1; });
+    let suggested = 'مبتدئ';
+    if(score >= 10) suggested = 'متقدم';
+    else if(score >= 5) suggested = 'متوسط';
+    document.getElementById('studentLevel').value = suggested;
+    toast(`المستوى: ${suggested}`, '🎯');
+    soundSuccess();
+    speakArabic(`المستوى المقترح: ${suggested}`);
+    closeModal();
+  };
+  document.body.classList.add('modal-open');
+  document.getElementById('modalScreen').classList.add('active');
+}
+
+function confirmReset(){
+  soundClick();
+  if(!confirm('إعادة التعيين؟')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state = {
+    student:{name:"",level:"مبتدئ",language:"English",score:0,completedLessons:0,completedExercises:0,completedExams:0,knownWords:0,streak:0,lastVisit:null,history:[]},
+    settings:{sound:true, voice:true, theme:state.settings.theme}
+  };
+  document.getElementById('app').classList.remove('show');
+  document.getElementById('home').classList.remove('hidden');
+  document.getElementById('studentName').value = '';
+  document.getElementById('studentLevel').value = 'مبتدئ';
+  document.getElementById('studentLanguage').value = 'English';
+  applyTheme(); updateUI();
+  toast('تمت إعادة التعيين', '🔄');
+}
+
+function confetti(){
+  const colors = ['#f5b301','#10b981','#3b82f6','#ef4444','#8b5cf6','#ec4899'];
+  for(let i=0;i<36;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = Math.random()*100 + 'vw';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.animationDelay = Math.random()*0.5 + 's';
+    c.style.borderRadius = Math.random()>0.5?'50%':'0';
+    c.style.width = (6+Math.random()*8)+'px';
+    c.style.height = c.style.width;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 3500);
+  }
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape') closeModal();
+  if(e.key === 'ArrowRight'){ if(window.__lessonNext) window.__lessonNext(); if(window.__exNext) window.__exNext(); if(window.__vocabNext) window.__vocabNext(); }
+  if(e.key === 'ArrowLeft'){ if(window.__lessonPrev) window.__lessonPrev(); if(window.__exPrev) window.__exPrev(); if(window.__vocabPrev) window.__vocabPrev(); }
+});
+</script>
+</body>
+</html>
