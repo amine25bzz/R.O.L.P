@@ -394,20 +394,13 @@
       <span class="chip y" id="hStreak">🔥 0</span>
     </div>
     <div class="toolbar">
-      <button class="icon-btn" onclick="confirmReset()" title="الرئيسية">🏠</button>
+      <button class="icon-btn" onclick="location.reload()" title="الرئيسية">🏠</button>
       <button class="icon-btn" id="soundBtn" onclick="toggleSound()" title="أصوات">🔊</button>
       <button class="icon-btn" id="voiceBtn" onclick="toggleVoice()" title="صوت الأستاذ">🗣️</button>
       <button class="icon-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
       <button class="icon-btn" onclick="openStats()" title="الإحصائيات">📊</button>
-<button class="icon-btn" onclick="confirmReset()" title="إعادة تعيين">🔄</button>
+<button class="icon-btn" onclick="location.reload()" title="إعادة تعيين">🔄</button>
 
-<script>
-function confirmReset() {
-        location.reload();
-    
-}
-</script>
-    
     </div>
   </div>
 
@@ -451,7 +444,13 @@ function confirmReset() {
   <div class="teacher-bubble" id="teacherBubble"></div>
 </div>
 
-
+<script>
+function confirmReset() {
+        location.reload();
+    
+}
+</script>
+    
 <!-- === Load language data scripts === -->
 <script>
   const dataScripts = {
